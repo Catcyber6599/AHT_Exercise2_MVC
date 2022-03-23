@@ -9,5 +9,5 @@
         <label for="description">Description</label>
         <input type="text" class="form-control" id="description" placeholder="Enter a description" name="description" value ="<?php if (isset($task["description"])) echo $task["description"];?>">
     </div>
-    <button type="submit" Onclick="alert('Edit successfully')" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>

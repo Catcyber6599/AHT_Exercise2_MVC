@@ -9,6 +9,6 @@
 		<label for="description">Description</label>
 		<input type="text" class="form-control" id="description" placeholder="Enter a description" name="description">
 	</div>
-	<button type="submit" onclick="alert('Add successfully')" class="btn btn-primary">Submit</button>
+	<button type="submit" onclick="alert('Add successfully')" class="btn btn-primary">Save</button>
 
 </form>
