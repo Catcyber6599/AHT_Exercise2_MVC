@@ -1,8 +1,8 @@
 <?php
+namespace mvc;
 
 class Router
 {
-
     static public function parse($url, $request)
     {
         $url = trim($url);

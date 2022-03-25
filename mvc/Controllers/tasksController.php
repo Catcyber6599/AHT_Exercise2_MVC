@@ -1,61 +1,60 @@
 <?php
-class tasksController extends Controller
-{
-    function index()
-    {
-        require(ROOT . 'Models/Task.php');
+namespace mvc\Controllers;
 
-        $tasks = new Task();
+use mvc\Core\Controller;
+use mvc\Models\TaskModel;
+use mvc\Models\TaskRepository;
 
-        $d['tasks'] = $tasks->showAllTasks();
-        $this->set($d);
-        $this->render("index");
-    }
+class TasksController extends Controller {
+	public function index() {
+		$tasks = new TaskRepository();
 
-    function create()
-    {
-        if (isset($_POST["title"]))
-        {
-            require(ROOT . 'Models/Task.php');
+		$d['tasks'] = $tasks->getall();
+		$this->set($d);
+		$this->render("index");
+	}
 
-            $task= new Task();
+	public function create() {
+		if (isset($_POST["title"])) {
 
-            if ($task->create($_POST["title"], $_POST["description"]))
-            {
-                header("Location: " . WEBROOT . "tasks/index");
-            }
-        }
+			$model = new TaskModel();
+			$model->setTitle($_POST['title']);
+			$model->setDescription($_POST['description']);
 
-        $this->render("create");
-    }
+			$add = new TaskRepository();
 
-    function edit($id)
-    {
-        require(ROOT . 'Models/Task.php');
-        $task= new Task();
+			if ($add->add($model)) {
+				header("Location: ".WEBROOT."tasks/index");
+			}
+		}
 
-        $d["task"] = $task->showTask($id);
+		$this->render("create");
+	}
 
-        if (isset($_POST["title"]))
-        {
-            if ($task->edit($id, $_POST["title"], $_POST["description"]))
-            {
-                header("Location: " . WEBROOT . "tasks/index");
-            }
-        }
-        $this->set($d);
-        $this->render("edit");
-    }
+	public function edit($id) {
+		$task = new TaskRepository();
 
-    function delete($id)
-    {
-        require(ROOT . 'Models/Task.php');
+		$d["task"] = $task->get($id);
 
-        $task = new Task();
-        if ($task->delete($id))
-        {
-            header("Location: " . WEBROOT . "tasks/index");
-        }
-    }
+		if (isset($_POST["title"])) {
+			$model = new TaskModel();
+			$model->setId($id);
+			$model->setTitle($_POST['title']);
+			$model->setDescription($_POST['description']);
+
+			$edit = new TaskRepository();
+			if ($edit->edit($model)) {
+				header("Location: ".WEBROOT."tasks/index");
+			}
+		}
+		$this->set($d);
+		$this->render("edit");
+	}
+
+	public function delete($id) {
+		$task = new TaskRepository();
+		if ($task->delete($id)) {
+			header("Location: ".WEBROOT."tasks/index");
+		}
+	}
 }
-?>
